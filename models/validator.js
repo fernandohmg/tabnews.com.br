@@ -1,7 +1,7 @@
-import Joi from 'joi';
 import { ValidationError } from 'errors/index.js';
-import removeMarkdown from 'models/remove-markdown';
 import webserver from 'infra/webserver';
+import Joi from 'joi';
+import removeMarkdown from 'models/remove-markdown';
 
 export default function validator(object, keys) {
   // Force the clean up of "undefined" values since JSON
@@ -79,13 +79,13 @@ const schemas = {
         .custom(checkReservedUsernames, 'check if username is reserved')
         .when('$required.username', { is: 'required', then: Joi.required(), otherwise: Joi.optional() })
         .messages({
-          'any.required': `"username" é um campo obrigatório.`,
-          'string.empty': `"username" não pode estar em branco.`,
-          'string.base': `"username" deve ser do tipo String.`,
-          'string.alphanum': `"username" deve conter apenas caracteres alfanuméricos.`,
-          'string.min': `"username" deve conter no mínimo {#limit} caracteres.`,
-          'string.max': `"username" deve conter no máximo {#limit} caracteres.`,
-          'any.invalid': `"username" possui o valor inválido "null".`,
+          'any.required': `"nome de usuário" é um campo obrigatório.`,
+          'string.empty': `"nome de usuário" não pode estar em branco.`,
+          'string.base': `"nome de usuário" deve ser do tipo String.`,
+          'string.alphanum': `"nome de usuário" deve conter apenas caracteres alfanuméricos.`,
+          'string.min': `"nome de usuário" deve conter no mínimo {#limit} caracteres.`,
+          'string.max': `"nome de usuário" deve conter no máximo {#limit} caracteres.`,
+          'any.invalid': `"nome de usuário" possui o valor inválido "null".`,
           'username.reserved': `Este nome de usuário não está disponível para uso.`,
         }),
     });
@@ -142,12 +142,12 @@ const schemas = {
         .invalid(null)
         .when('$required.password', { is: 'required', then: Joi.required(), otherwise: Joi.optional() })
         .messages({
-          'any.required': `"password" é um campo obrigatório.`,
-          'string.empty': `"password" não pode estar em branco.`,
-          'string.base': `"password" deve ser do tipo String.`,
-          'string.min': `"password" deve conter no mínimo {#limit} caracteres.`,
-          'string.max': `"password" deve conter no máximo {#limit} caracteres.`,
-          'any.invalid': `"password" possui o valor inválido "null".`,
+          'any.required': `"senha" é um campo obrigatório.`,
+          'string.empty': `"senha" não pode estar em branco.`,
+          'string.base': `"senha" deve ser do tipo String.`,
+          'string.min': `"senha" deve conter no mínimo {#limit} caracteres.`,
+          'string.max': `"senha" deve conter no máximo {#limit} caracteres.`,
+          'any.invalid': `"senha" possui o valor inválido "null".`,
         }),
     });
   },
@@ -246,11 +246,11 @@ const schemas = {
         .max(255)
         .when('$required.title', { is: 'required', then: Joi.required(), otherwise: Joi.optional() })
         .messages({
-          'any.required': `"title" é um campo obrigatório.`,
-          'string.empty': `"title" não pode estar em branco.`,
-          'string.base': `"title" deve ser do tipo String.`,
-          'string.min': `"title" deve conter no mínimo {#limit} caracteres.`,
-          'string.max': `"title" deve conter no máximo {#limit} caracteres.`,
+          'any.required': `"título" é um campo obrigatório.`,
+          'string.empty': `"título" não pode estar em branco.`,
+          'string.base': `"título" deve ser do tipo String.`,
+          'string.min': `"título" deve conter no mínimo {#limit} caracteres.`,
+          'string.max': `"título" deve conter no máximo {#limit} caracteres.`,
         }),
     });
   },
@@ -266,13 +266,13 @@ const schemas = {
         .custom(withoutMarkdown, 'check if is empty without markdown')
         .when('$required.body', { is: 'required', then: Joi.required(), otherwise: Joi.optional() })
         .messages({
-          'any.required': `"body" é um campo obrigatório.`,
-          'string.empty': `"body" não pode estar em branco.`,
-          'string.base': `"body" deve ser do tipo String.`,
-          'string.min': `"body" deve conter no mínimo {#limit} caracteres.`,
-          'string.max': `"body" deve conter no máximo {#limit} caracteres.`,
-          'any.invalid': `"body" possui o valor inválido "null".`,
-          'string.pattern.invert.base': `"body" deve começar com caracteres visíveis.`,
+          'any.required': `"corpo" é um campo obrigatório.`,
+          'string.empty': `"corpo" não pode estar em branco.`,
+          'string.base': `"corpo" deve ser do tipo String.`,
+          'string.min': `"corpo" deve conter no mínimo {#limit} caracteres.`,
+          'string.max': `"corpo" deve conter no máximo {#limit} caracteres.`,
+          'any.invalid': `"corpo" possui o valor inválido "null".`,
+          'string.pattern.invert.base': `"corpo" deve começar com caracteres visíveis.`,
           'markdown.empty': `Markdown deve conter algum texto`,
         }),
     });
@@ -307,12 +307,12 @@ const schemas = {
         .pattern(/^https?:\/\/([-\p{Ll}\d_]{1,255}\.)+[-a-z0-9]{2,24}(:[0-9]{1,5})?([\/?#]\S*)?$/u)
         .when('$required.source_url', { is: 'required', then: Joi.required(), otherwise: Joi.optional() })
         .messages({
-          'any.required': `"source_url" é um campo obrigatório.`,
-          'string.empty': `"source_url" não pode estar em branco.`,
-          'string.base': `"source_url" deve ser do tipo String.`,
-          'string.max': `"source_url" deve conter no máximo {#limit} caracteres.`,
-          'any.invalid': `"source_url" possui o valor inválido "null".`,
-          'string.pattern.base': `"source_url" deve possuir uma URL válida e utilizando os protocolos HTTP ou HTTPS.`,
+          'any.required': `"fonte" é um campo obrigatório.`,
+          'string.empty': `"fonte" não pode estar em branco.`,
+          'string.base': `"fonte" deve ser do tipo String.`,
+          'string.max': `"fonte" deve conter no máximo {#limit} caracteres.`,
+          'any.invalid': `"fonte" possui o valor inválido "null".`,
+          'string.pattern.base': `"fonte" deve possuir uma URL válida e utilizando os protocolos HTTP ou HTTPS.`,
         }),
     });
   },

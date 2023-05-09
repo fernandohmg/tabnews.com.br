@@ -11,7 +11,7 @@ import {
   TextInput,
 } from '@/TabNewsUI';
 import { useUser } from 'pages/interface';
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 
 export default function Login() {
   return (
@@ -22,6 +22,7 @@ export default function Login() {
 }
 
 function LoginForm() {
+  const formId = useId();
   const { fetchUser } = useUser();
 
   const emailRef = useRef('');
@@ -85,52 +86,54 @@ function LoginForm() {
 
   return (
     <>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <form aria-labelledby={formId} style={{ width: '100%' }} onSubmit={handleSubmit}>
+        <Box>
           {globalErrorMessage && <Flash variant="danger">{globalErrorMessage}</Flash>}
-
-          <Heading as="h1" sx={{ mb: 3 }}>
-            Login
-          </Heading>
-          <FormControl id="email">
-            <FormControl.Label>Email</FormControl.Label>
-            <TextInput
-              ref={emailRef}
-              onChange={clearErrors}
-              name="email"
-              size="large"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              block={true}
-              aria-label="Seu email"
-              contrast
-              sx={{ minHeight: '46px', px: 2, '&:focus-within': { backgroundColor: 'canvas.default' } }}
+          <Box
+            role="group"
+            aria-labelledby={formId}
+            sx={{ border: 0, padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ padding: 0 }}>
+              <Heading as="h1" id={formId} sx={{ mb: 3 }}>
+                Login
+              </Heading>
+            </Box>
+            <FormControl id="email">
+              <FormControl.Label>Email</FormControl.Label>
+              <TextInput
+                ref={emailRef}
+                onChange={clearErrors}
+                name="email"
+                size="large"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                block={true}
+                contrast
+                sx={{ minHeight: '46px', px: 2, '&:focus-within': { backgroundColor: 'canvas.default' } }}
+              />
+              {errorObject?.key === 'email' && (
+                <FormControl.Validation variant="error">
+                  <Box role="alert" aria-relevant="all">
+                    {errorObject.message}
+                  </Box>
+                </FormControl.Validation>
+              )}
+            </FormControl>
+            <PasswordInput
+              inputRef={passwordRef}
+              id="password"
+              name="password"
+              label="Senha"
+              errorObject={errorObject}
+              setErrorObject={setErrorObject}
             />
-            {errorObject?.key === 'email' && (
-              <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
-            )}
-          </FormControl>
-          <PasswordInput
-            inputRef={passwordRef}
-            id="password"
-            name="password"
-            label="Senha"
-            errorObject={errorObject}
-            setErrorObject={setErrorObject}
-          />
-          <FormControl>
-            <FormControl.Label visuallyHidden>Login</FormControl.Label>
-            <Button
-              variant="primary"
-              size="large"
-              type="submit"
-              disabled={isLoading}
-              sx={{ width: '100%' }}
-              aria-label="Login">
-              Login
-            </Button>
-          </FormControl>
+            <FormControl>
+              <Button variant="primary" size="large" type="submit" disabled={isLoading} sx={{ width: '100%' }}>
+                Login
+              </Button>
+            </FormControl>
+          </Box>
         </Box>
       </form>
       <Box sx={{ mt: 6, width: '100%', textAlign: 'center', fontSize: 1 }} display="flex" flexDirection="column">

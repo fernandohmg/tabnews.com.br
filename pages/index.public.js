@@ -1,4 +1,5 @@
-import { ContentList, DefaultLayout } from '@/TabNewsUI';
+import { ContentList, DefaultLayout, Heading } from '@/TabNewsUI';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import authorization from 'models/authorization.js';
 import content from 'models/content.js';
 import user from 'models/user.js';
@@ -10,6 +11,9 @@ export default function Home({ contentListFound, pagination }) {
   return (
     <>
       <DefaultLayout>
+        <VisuallyHidden.Root>
+          <Heading as="h1">Relevantes</Heading>
+        </VisuallyHidden.Root>
         <ContentList
           contentList={contentListFound}
           pagination={pagination}

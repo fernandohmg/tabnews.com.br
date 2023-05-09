@@ -31,58 +31,60 @@ export default function Post({ contentFound, childrenFound, rootContentFound, pa
       {showConfetti && <Confetti />}
       <DefaultLayout metadata={contentMetadata}>
         <InReplyToLinks content={contentFound} parentContent={parentContentFound} rootContent={rootContentFound} />
-
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-          }}>
+        <Box as="article">
           <Box
             sx={{
-              pr: 2,
+              width: '100%',
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
             }}>
-            <TabCoinButtons key={contentFound.id} content={contentFound} />
+            <Box
+              as="aside"
+              sx={{
+                pr: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}>
+              <TabCoinButtons key={contentFound.id} content={contentFound} />
+              <Box
+                sx={{
+                  borderWidth: 0,
+                  borderRightWidth: 1,
+                  borderColor: 'btn.activeBorder',
+                  borderStyle: 'dotted',
+                  width: '50%',
+                  height: '100%',
+                }}
+              />
+            </Box>
+
+            <Box sx={{ width: '100%', pl: '1px' }}>
+              <Content key={contentFound.id} content={contentFound} mode="view" />
+            </Box>
+          </Box>
+
+          <Box as="section" aria-label="Comentários" sx={{ width: '100%' }}>
             <Box
               sx={{
-                borderWidth: 0,
-                borderRightWidth: 1,
-                borderColor: 'btn.activeBorder',
-                borderStyle: 'dotted',
-                width: '50%',
-                height: '100%',
-              }}
+                borderRadius: '6px',
+                borderWidth: 1,
+                borderColor: 'border.default',
+                borderStyle: 'solid',
+                mt: 4,
+                mb: 4,
+                p: 4,
+                wordWrap: 'break-word',
+              }}>
+              <Content key={contentFound.id} content={{ parent_id: contentFound.id }} mode="compact" />
+            </Box>
+
+            <RenderChildrenTree
+              key={contentFound.id}
+              childrenList={childrenFound}
+              renderIntent={childrenToShow}
+              renderIncrement={Math.ceil(childrenToShow / 2)}
             />
           </Box>
-
-          <Box sx={{ width: '100%', pl: '1px', overflow: 'auto' }}>
-            <Content key={contentFound.id} content={contentFound} mode="view" />
-          </Box>
-        </Box>
-
-        <Box sx={{ width: '100%' }}>
-          <Box
-            sx={{
-              borderRadius: '6px',
-              borderWidth: 1,
-              borderColor: 'border.default',
-              borderStyle: 'solid',
-              mt: 4,
-              mb: 4,
-              p: 4,
-              wordWrap: 'break-word',
-            }}>
-            <Content key={contentFound.id} content={{ parent_id: contentFound.id }} mode="compact" />
-          </Box>
-
-          <RenderChildrenTree
-            key={contentFound.id}
-            childrenList={childrenFound}
-            renderIntent={childrenToShow}
-            renderIncrement={Math.ceil(childrenToShow / 2)}
-          />
         </Box>
       </DefaultLayout>
     </>
@@ -183,6 +185,7 @@ function RenderChildrenTree({ childrenList, renderIntent, renderIncrement }) {
 
     return !renderIntent && !renderShowMore ? null : (
       <Box
+        as="article"
         sx={{
           width: '100%',
           wordWrap: 'break-word',
@@ -193,6 +196,7 @@ function RenderChildrenTree({ childrenList, renderIntent, renderIncrement }) {
         {renderIntent ? (
           <>
             <Box
+              as="aside"
               sx={{
                 mr: 2,
                 display: 'flex',

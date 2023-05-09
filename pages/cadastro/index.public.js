@@ -1,20 +1,17 @@
 import { Box, Button, DefaultLayout, Flash, FormControl, Heading, PasswordInput, TextInput } from '@/TabNewsUI';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 
 export default function Register() {
   return (
     <DefaultLayout containerWidth="small" metadata={{ title: 'Cadastro' }}>
-      <Heading as="h1" sx={{ mb: 3 }}>
-        Cadastro
-      </Heading>
-
       <SignUpForm />
     </DefaultLayout>
   );
 }
 
 function SignUpForm() {
+  const formId = useId();
   const router = useRouter();
 
   const usernameRef = useRef('');
@@ -94,95 +91,105 @@ function SignUpForm() {
   }
 
   return (
-    <form style={{ width: '100%' }} onSubmit={handleSubmit}>
+    <form aria-labelledby={formId} style={{ width: '100%' }} onSubmit={handleSubmit}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         {globalErrorMessage && <Flash variant="danger">{globalErrorMessage}</Flash>}
-
-        <FormControl id="username">
-          <FormControl.Label>Nome de usuário</FormControl.Label>
-          <TextInput
-            ref={usernameRef}
-            onChange={clearErrors}
-            name="username"
-            size="large"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            block={true}
-            aria-label="Seu nome de usuário"
-            contrast
-            sx={{ minHeight: '46px', px: 2, '&:focus-within': { backgroundColor: 'canvas.default' } }}
-          />
-          {errorObject?.key === 'username' && (
-            <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
-          )}
-
-          {errorObject?.type === 'string.alphanum' && (
-            <FormControl.Caption>Dica: use somente letras e números, por exemplo: nomeSobrenome4 </FormControl.Caption>
-          )}
-        </FormControl>
-        <FormControl id="email">
-          <FormControl.Label>Email</FormControl.Label>
-          <TextInput
-            ref={emailRef}
-            onChange={clearErrors}
-            name="email"
-            size="large"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            block={true}
-            aria-label="Seu email"
-            contrast
-            sx={{ minHeight: '46px', px: 2, '&:focus-within': { backgroundColor: 'canvas.default' } }}
-          />
-          {errorObject?.key === 'email' && (
-            <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
-          )}
-          {errorObject?.key === 'email' && errorObject?.type === 'typo' && (
-            <FormControl.Validation variant="error">
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Box>Você quis dizer:</Box>
-                <Box>
-                  <Button
-                    variant="invisible"
-                    size="small"
-                    sx={{ p: 1 }}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      clearErrors();
-                      emailRef.current.value = errorObject.suggestion;
-                      passwordRef.current.focus();
-                    }}>
-                    {errorObject.suggestion.split('@')[0]}@<u>{errorObject.suggestion.split('@')[1]}</u>
-                  </Button>
+        <Box
+          role="group"
+          aria-labelledby={formId}
+          sx={{ border: 0, padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Box sx={{ padding: 0 }}>
+            <Heading as="h1" id={formId} sx={{ mb: 3 }}>
+              Cadastro
+            </Heading>
+          </Box>
+          <FormControl id="username">
+            <FormControl.Label>Nome de usuário</FormControl.Label>
+            <TextInput
+              ref={usernameRef}
+              onChange={clearErrors}
+              name="username"
+              size="large"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              block={true}
+              contrast
+              sx={{ minHeight: '46px', px: 2, '&:focus-within': { backgroundColor: 'canvas.default' } }}
+            />
+            {errorObject?.key === 'username' && (
+              <FormControl.Validation variant="error">
+                <Box role="alert" aria-relevant="all">
+                  {errorObject.message}
                 </Box>
+              </FormControl.Validation>
+            )}
+
+            {errorObject?.type === 'string.alphanum' && (
+              <FormControl.Caption>
+                <Box role="alert" aria-relevant="all">
+                  Dica: use somente letras e números, por exemplo: nomeSobrenome4
+                </Box>
+              </FormControl.Caption>
+            )}
+          </FormControl>
+          <FormControl id="email">
+            <FormControl.Label>Email</FormControl.Label>
+            <TextInput
+              ref={emailRef}
+              onChange={clearErrors}
+              name="email"
+              size="large"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              block={true}
+              contrast
+              sx={{ minHeight: '46px', px: 2, '&:focus-within': { backgroundColor: 'canvas.default' } }}
+            />
+            {errorObject?.key === 'email' && (
+              <Box role="alert" aria-relevant="all">
+                <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
               </Box>
-            </FormControl.Validation>
-          )}
-        </FormControl>
+            )}
+            {errorObject?.key === 'email' && errorObject?.type === 'typo' && (
+              <FormControl.Validation variant="error">
+                <Box role="alert" aria-relevant="all" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box>Você quis dizer:</Box>
+                  <Box>
+                    <Button
+                      variant="invisible"
+                      size="small"
+                      sx={{ p: 1 }}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        clearErrors();
+                        emailRef.current.value = errorObject.suggestion;
+                        passwordRef.current.focus();
+                      }}>
+                      {errorObject.suggestion.split('@')[0]}@<u>{errorObject.suggestion.split('@')[1]}</u>
+                    </Button>
+                  </Box>
+                </Box>
+              </FormControl.Validation>
+            )}
+          </FormControl>
 
-        <PasswordInput
-          inputRef={passwordRef}
-          id="password"
-          name="password"
-          label="Senha"
-          errorObject={errorObject}
-          setErrorObject={setErrorObject}
-        />
+          <PasswordInput
+            inputRef={passwordRef}
+            id="password"
+            name="password"
+            label="Senha"
+            errorObject={errorObject}
+            setErrorObject={setErrorObject}
+          />
 
-        <FormControl>
-          <FormControl.Label visuallyHidden>Criar cadastro</FormControl.Label>
-          <Button
-            variant="primary"
-            size="large"
-            type="submit"
-            disabled={isLoading}
-            sx={{ width: '100%' }}
-            aria-label="Criar cadastro">
-            Criar cadastro
-          </Button>
-        </FormControl>
+          <FormControl>
+            <Button variant="primary" size="large" type="submit" disabled={isLoading} sx={{ width: '100%' }}>
+              Criar cadastro
+            </Button>
+          </FormControl>
+        </Box>
       </Box>
     </form>
   );

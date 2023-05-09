@@ -424,7 +424,9 @@ function EditMode({ contentObject, setContentObject, setComponentMode, localStor
               />
 
               {errorObject?.key === 'title' && (
-                <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+                <Box role="alert" aria-relevant="all">
+                  <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+                </Box>
               )}
             </FormControl>
           )}
@@ -440,7 +442,9 @@ function EditMode({ contentObject, setContentObject, setComponentMode, localStor
             />
 
             {errorObject?.key === 'body' && (
-              <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+              <Box role="alert" aria-relevant="all">
+                <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+              </Box>
             )}
           </FormControl>
 
@@ -464,7 +468,9 @@ function EditMode({ contentObject, setContentObject, setComponentMode, localStor
               />
 
               {errorObject?.key === 'source_url' && (
-                <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+                <Box role="alert" aria-relevant="all">
+                  <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+                </Box>
               )}
             </FormControl>
           )}
@@ -476,12 +482,11 @@ function EditMode({ contentObject, setContentObject, setComponentMode, localStor
                 type="button"
                 disabled={isPosting}
                 sx={{ marginRight: 3, fontSize: 1, fontWeight: 'normal', cursor: 'pointer', color: 'fg.muted' }}
-                aria-label="Cancelar alteração"
                 onClick={handleCancel}>
                 Cancelar
               </Button>
             )}
-            <Button variant="primary" type="submit" disabled={isPosting} aria-label="Publicar">
+            <Button variant="primary" type="submit" disabled={isPosting}>
               {contentObject?.id ? 'Atualizar' : 'Publicar'}
             </Button>
           </Box>

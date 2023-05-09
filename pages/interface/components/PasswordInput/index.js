@@ -1,4 +1,4 @@
-import { FormControl, TextInput } from '@/TabNewsUI';
+import { Box, FormControl, TextInput } from '@/TabNewsUI';
 import { EyeClosedIcon, EyeIcon } from '@primer/octicons-react';
 import { useEffect, useState } from 'react';
 
@@ -69,10 +69,18 @@ export default function PasswordInput({ inputRef, id, name, label, errorObject, 
         {...props}
       />
       {capsLockWarningMessage && (
-        <FormControl.Validation variant="warning">{capsLockWarningMessage}</FormControl.Validation>
+        <FormControl.Validation variant="warning">
+          <Box role="alert" aria-relevant="all">
+            {capsLockWarningMessage}
+          </Box>
+        </FormControl.Validation>
       )}
       {['empty', 'password', 'password_confirm'].includes(errorObject?.key) && (
-        <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+        <FormControl.Validation variant="error">
+          <Box role="alert" aria-relevant="all">
+            {errorObject.message}
+          </Box>
+        </FormControl.Validation>
       )}
       <style global jsx>{`
         ::-ms-reveal {

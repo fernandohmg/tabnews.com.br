@@ -120,10 +120,13 @@ function RecoverPasswordForm() {
               autoCapitalize="off"
               spellCheck={false}
               block={true}
-              aria-label="Digite seu e-mail ou o nome de usuário de outra pessoa"
             />
             {['userInput', 'email', 'username'].includes(errorObject?.key) && (
-              <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+              <FormControl.Validation variant="error">
+                <Box role="alert" aria-relevant="all">
+                  {errorObject.message}
+                </Box>
+              </FormControl.Validation>
             )}
 
             {errorObject?.type === 'string.alphanum' && (
@@ -148,27 +151,27 @@ function RecoverPasswordForm() {
               autoCapitalize="off"
               spellCheck={false}
               block={true}
-              aria-label="Seu e-mail"
             />
             {['userInput', 'email', 'username'].includes(errorObject?.key) && (
-              <FormControl.Validation variant="error">{errorObject.message}</FormControl.Validation>
+              <FormControl.Validation variant="error">
+                <Box role="alert" aria-relevant="all">
+                  {errorObject.message}
+                </Box>
+              </FormControl.Validation>
             )}
 
             {errorObject?.type === 'string.alphanum' && (
-              <FormControl.Validation variant="error">"email" deve conter um endereço válido.</FormControl.Validation>
+              <FormControl.Validation variant="error">
+                <Box role="alert" aria-relevant="all">
+                  "email" deve conter um endereço válido.
+                </Box>
+              </FormControl.Validation>
             )}
           </FormControl>
         )}
 
         <FormControl>
-          <FormControl.Label visuallyHidden>Recuperar</FormControl.Label>
-          <Button
-            variant="primary"
-            size="large"
-            type="submit"
-            disabled={isLoading}
-            sx={{ width: '100%' }}
-            aria-label="Recuperar">
+          <Button variant="primary" size="large" type="submit" disabled={isLoading} sx={{ width: '100%' }}>
             Recuperar
           </Button>
         </FormControl>

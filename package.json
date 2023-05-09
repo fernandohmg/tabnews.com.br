@@ -9,6 +9,7 @@
     "@bytemd/react": "1.21.0",
     "@primer/octicons-react": "18.3.0",
     "@primer/react": "35.25.1",
+    "@radix-ui/react-visually-hidden": "^1.0.2",
     "@resvg/resvg-js": "2.4.1",
     "@upstash/ratelimit": "0.4.2",
     "@upstash/redis": "1.20.4",

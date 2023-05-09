@@ -11,8 +11,15 @@ export function Link({ href, children, ...props }) {
 }
 
 export function HeaderLink({ href, children, ...props }) {
+  const router = useRouter();
+  const isCurrent = typeof href === 'string' ? router.asPath === href : router.pathname === href.pathname;
   return (
-    <PrimerHeader.Link as={NextLink} href={href} prefetch={false} {...props}>
+    <PrimerHeader.Link
+      as={NextLink}
+      href={href}
+      aria-current={isCurrent ? 'page' : undefined}
+      prefetch={false}
+      {...props}>
       {children}
     </PrimerHeader.Link>
   );

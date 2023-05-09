@@ -1,4 +1,4 @@
-import { Box, Link } from '@/TabNewsUI';
+import { Box, Link, Text } from '@/TabNewsUI';
 import { CgTab } from 'react-icons/cg';
 
 export default function Footer(props) {
@@ -35,11 +35,15 @@ export default function Footer(props) {
             }}
             href="/"
             aria-label="Voltar para a página inicial">
-            <CgTab size={26} />
+            <CgTab size={26} aria-hidden />
           </Link>
-          &copy; {new Date().getFullYear()} TabNews
+          <Text as="small" sx={{ margin: 0, font: 'inherit' }}>
+            &copy; {new Date().getFullYear()} TabNews
+          </Text>
         </Box>
         <Box
+          as="nav"
+          aria-label="Footer links"
           sx={{
             display: 'flex',
             justifyContent: 'center',

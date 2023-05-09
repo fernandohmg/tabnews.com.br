@@ -1,5 +1,5 @@
 // import useSWR from 'swr';
-import { Box, EmptyState, Link, PublishedSince, Text } from '@/TabNewsUI';
+import { Box, EmptyState, Heading, Link, PublishedSince, Text } from '@/TabNewsUI';
 import { ChevronLeftIcon, ChevronRightIcon, CommentIcon } from '@primer/octicons-react';
 
 export default function ContentList({
@@ -21,10 +21,15 @@ export default function ContentList({
     <>
       {list.length > 0 ? (
         <Box
+          as="ol"
           sx={{
-            display: 'grid',
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'column',
             gap: '0.5rem',
-            gridTemplateColumns: 'auto 1fr',
+            listStyle: 'none',
+            padding: 0,
+            margin: 0,
           }}>
           <RenderItems />
           <EndOfRelevant />
@@ -82,58 +87,65 @@ export default function ContentList({
 
     return list.map((contentObject, index) => {
       const itemCount = index + 1 + listNumberOffset;
-      return [
-        <Box key={itemCount} sx={{ textAlign: 'right' }}>
-          <Text sx={{ fontSize: 2, color: 'fg.default', fontWeight: 'semibold', textAlign: 'right' }}>
-            {itemCount}.
-          </Text>
-        </Box>,
-        <Box as="article" key={contentObject.id} sx={{ overflow: 'auto' }}>
-          <Box
-            sx={{
-              overflow: 'auto',
-              fontWeight: 'semibold',
-              fontSize: 2,
-              '> a': {
-                ':link': {
-                  color: 'fg.default',
-                },
-                ':visited': {
-                  color: 'fg.subtle',
-                },
-              },
-            }}>
-            {contentObject.parent_id ? (
-              <Link
-                sx={{ wordWrap: 'break-word', fontStyle: 'italic', fontWeight: 'normal' }}
-                href={`/${contentObject.owner_username}/${contentObject.slug}`}>
-                <CommentIcon verticalAlign="middle" size="small" /> "{contentObject.body}"
-              </Link>
-            ) : (
-              <Link sx={{ wordWrap: 'break-word' }} href={`/${contentObject.owner_username}/${contentObject.slug}`}>
-                {contentObject.title}
-              </Link>
-            )}
-          </Box>
-          <Box sx={{ fontSize: 0, color: 'neutral.emphasis' }}>
-            <Text>
-              <TabCoinsText count={contentObject.tabcoins} />
-            </Text>
-            {' · '}
-            <Text>
-              <ChildrenDeepCountText count={contentObject.children_deep_count} />
-            </Text>
-            {' · '}
-            <Link sx={{ color: 'neutral.emphasis' }} href={`/${contentObject.owner_username}`}>
-              {contentObject.owner_username}
-            </Link>
-            {' · '}
-            <Text>
-              <PublishedSince direction="nw" date={contentObject.published_at} />
+      return (
+        <Box
+          key={contentObject.id}
+          as="li"
+          sx={{
+            display: 'flex',
+            gap: '0.375rem',
+          }}>
+          <Box key={itemCount} sx={{ textAlign: 'right', minWidth: 24 }}>
+            <Text sx={{ fontSize: 2, color: 'fg.default', fontWeight: 'semibold', textAlign: 'right' }}>
+              {itemCount}.
             </Text>
           </Box>
-        </Box>,
-      ];
+          <Box as="article" key={contentObject.id} sx={{ flex: 1 }}>
+            <Box as="header">
+              <Heading
+                sx={{
+                  fontWeight: 'semibold',
+                  paddingLeft: '2px',
+                  fontSize: 2,
+                  '> a': {
+                    ':link': {
+                      color: 'fg.default',
+                    },
+                    ':visited': {
+                      color: 'fg.subtle',
+                    },
+                  },
+                }}>
+                {contentObject.parent_id ? (
+                  <Link
+                    sx={{ wordWrap: 'break-word', fontStyle: 'italic', fontWeight: 'normal' }}
+                    href={`/${contentObject.owner_username}/${contentObject.slug}`}>
+                    <CommentIcon verticalAlign="middle" size="small" /> "{contentObject.body}"
+                  </Link>
+                ) : (
+                  <Link sx={{ wordWrap: 'break-word' }} href={`/${contentObject.owner_username}/${contentObject.slug}`}>
+                    {contentObject.title}
+                  </Link>
+                )}
+              </Heading>
+            </Box>
+            <Box as="footer" sx={{ fontSize: 0, color: 'neutral.emphasis', paddingLeft: '2px', margin: 0 }}>
+              <Text sx={{ '::after': { content: `' · ' / ''` } }}>
+                <TabCoinsText count={contentObject.tabcoins} />
+              </Text>
+              <Text sx={{ '::after': { content: `' · ' / ''` } }}>
+                <ChildrenDeepCountText count={contentObject.children_deep_count} />
+              </Text>
+              <Link sx={{ color: 'neutral.emphasis' }} href={`/${contentObject.owner_username}`}>
+                {contentObject.owner_username}
+              </Link>
+              <Text sx={{ '::before': { content: `' · ' / ''` } }}>
+                <PublishedSince direction="nw" date={contentObject.published_at} />
+              </Text>
+            </Box>
+          </Box>
+        </Box>
+      );
     });
   }
 

@@ -49,7 +49,7 @@ export function ThemeSwitcher({ ...props }) {
 
   return (
     <Button
-      aria-label='Alternar tema entre "claro" e "escuro"'
+      aria-label={`Alterar tema para ${mode === 'day' ? 'escuro' : 'claro'}`}
       onClick={handleSwitchMode}
       variant="invisible"
       sx={{

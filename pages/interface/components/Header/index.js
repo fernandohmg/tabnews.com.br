@@ -35,27 +35,32 @@ export default function HeaderComponent() {
 
   return (
     <PrimerHeader
+      as="header"
       id="header"
       sx={{
         px: [2, null, null, 3],
       }}>
-      <PrimerHeader.Item>
-        <HeaderLink href="/" aria-label="Voltar para a página inicial">
-          <CgTab size={32} />
-          <Box sx={{ ml: 2, display: ['none', 'block'] }}>TabNews</Box>
-        </HeaderLink>
-      </PrimerHeader.Item>
+      <PrimerHeader.Item as="nav" full>
+        <PrimerHeader.Item>
+          <HeaderLink href="/">
+            <CgTab size={32} aria-hidden />
+            <Box as="span" sx={{ ml: 2, display: ['none', 'block'] }}>
+              TabNews
+            </Box>
+          </HeaderLink>
+        </PrimerHeader.Item>
 
-      <PrimerHeader.Item>
-        <HeaderLink href="/" sx={asPath === '/' || asPath.startsWith('/pagina') ? activeLinkStyle : undefined}>
-          Relevantes
-        </HeaderLink>
-      </PrimerHeader.Item>
+        <PrimerHeader.Item>
+          <HeaderLink href="/" sx={asPath === '/' || asPath.startsWith('/pagina') ? activeLinkStyle : undefined}>
+            Relevantes
+          </HeaderLink>
+        </PrimerHeader.Item>
 
-      <PrimerHeader.Item full>
-        <HeaderLink href="/recentes" sx={asPath.startsWith('/recentes') ? activeLinkStyle : undefined}>
-          Recentes
-        </HeaderLink>
+        <PrimerHeader.Item>
+          <HeaderLink href="/recentes" sx={asPath.startsWith('/recentes') ? activeLinkStyle : undefined}>
+            Recentes
+          </HeaderLink>
+        </PrimerHeader.Item>
       </PrimerHeader.Item>
 
       {!isLoading && !user && (
@@ -86,7 +91,9 @@ export default function HeaderComponent() {
             <Tooltip aria-label="TabCoins" direction="s" noDelay={true} wrap={true}>
               <Box sx={{ display: 'flex', alignItems: 'center', pr: 1, color: '#0969da' }}>
                 <SquareFillIcon size={16} />
-                <Text sx={{ color: 'fg.onEmphasis' }}>{user.tabcoins?.toLocaleString('pt-BR')}</Text>
+                <Text as="p" sx={{ color: 'fg.onEmphasis' }}>
+                  {user.tabcoins?.toLocaleString('pt-BR')}
+                </Text>
               </Box>
             </Tooltip>
           </PrimerHeader.Item>
@@ -100,7 +107,9 @@ export default function HeaderComponent() {
             <Tooltip aria-label="TabCash" direction="s" noDelay={true} wrap={true}>
               <Box sx={{ display: 'flex', alignItems: 'center', pr: 1, color: '#2da44e' }}>
                 <SquareFillIcon size={16} />
-                <Text sx={{ color: 'fg.onEmphasis' }}>{user.tabcash?.toLocaleString('pt-BR')}</Text>
+                <Text as="p" sx={{ color: 'fg.onEmphasis' }}>
+                  {user.tabcash?.toLocaleString('pt-BR')}
+                </Text>
               </Box>
             </Tooltip>
           </PrimerHeader.Item>
